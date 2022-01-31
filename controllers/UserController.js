@@ -1,11 +1,21 @@
+const { RESERVED } = require("mysql2/lib/constants/client")
+
 class UserController {
     async index(req, res) {
 
     }
 
     async create(req, res) {
-        console.log(req.body)
-        res.send('Pegando o corpo da requisição')
+        let {email, name, password} = req.body
+
+        if(email == undefined) {
+            res.status(400)
+            res.json({err: 'O e-mail é inválido'})
+        }
+
+        res.status(200)
+        res.json('Tudo OK!')
+        
     }
 }
 
