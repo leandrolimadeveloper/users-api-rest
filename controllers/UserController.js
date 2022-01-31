@@ -1,5 +1,3 @@
-const { RESERVED } = require("mysql2/lib/constants/client")
-
 class UserController {
     async index(req, res) {
 
@@ -15,7 +13,6 @@ class UserController {
 
         res.status(200)
         res.json('Tudo OK!')
-        
     }
 }
 
