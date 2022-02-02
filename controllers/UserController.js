@@ -1,9 +1,24 @@
 const { RESERVED } = require('mysql2/lib/constants/client')
 const User = require('../models/User')
+const { use } = require('../routes/routes')
 
 class UserController {
     async index(req, res) {
+        let users = await User.findAll()
+        res.json(users)
+    }
 
+    async findUser(req, res) {
+        let id = req.params.id
+        let user = await User.findById(id)
+
+        if(user == undefined) {
+            res.status(404)
+            res.json({})
+        } else {
+            res.status(200)
+            res.json(user)
+        }
     }
 
     async create(req, res) {
