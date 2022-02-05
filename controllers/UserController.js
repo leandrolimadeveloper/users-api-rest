@@ -80,10 +80,25 @@ class UserController {
         
         if(result.status) {
             res.status(200)
-            res.send(result.token) // Converter para String para o Node não reconhecer como um código de status
+            res.send("" + result.token) // Converter para String para o Node não reconhecer como um código de status
         } else {
             res.status(406)
             res.send(result.err)
+        }
+    }
+
+    async changePassword(req, res) {
+        let token = req.body.token
+        let password = req.body.password
+        let isTokenValid = await PasswordToken.validade(token)
+
+        if(isTokenValid.status) {
+            await User.changePassword(password, isTokenValid.token.user_id, isTokenValid.token.token) 
+            res.status(200)
+            res.send('Senha alterada')
+        } else {
+            res.status(406)
+            res.send('Token Inválido')
         }
     }
 }
