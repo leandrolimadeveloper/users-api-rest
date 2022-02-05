@@ -1,6 +1,5 @@
-const { RESERVED } = require('mysql2/lib/constants/client')
 const User = require('../models/User')
-const { use } = require('../routes/routes')
+const PasswordToken = require('../models/PasswordToken')
 
 class UserController {
     async index(req, res) {
@@ -69,6 +68,19 @@ class UserController {
         if(result.status) {
             res.status(200)
             res.send('Usuário deletado')
+        } else {
+            res.status(406)
+            res.send(result.err)
+        }
+    }
+
+    async recoverPassword(req, res) {
+        let email = req.body.email
+        let result = await PasswordToken.create(email)
+        
+        if(result.status) {
+            res.status(200)
+            res.send(result.token) // Converter para String para o Node não reconhecer como um código de status
         } else {
             res.status(406)
             res.send(result.err)
